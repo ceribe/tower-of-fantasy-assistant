@@ -51,6 +51,7 @@ enum class JointOperation(
 
     companion object {
         fun getById(id: Int) = values().first { it.id == id }
+        fun getByName(name: String) = values().first { it.instanceName == name }
     }
 }
 
