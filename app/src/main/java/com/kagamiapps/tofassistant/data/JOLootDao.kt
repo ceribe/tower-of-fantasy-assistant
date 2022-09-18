@@ -1,0 +1,24 @@
+package com.kagamiapps.tofassistant.data
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface JOLootDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertLoot(loot: JOLoot)
+
+    @Delete
+    suspend fun deleteLoot(loot: JOLoot)
+
+    @Query("SELECT * FROM joloot WHERE id = :id")
+    suspend fun getLootById(id: Int): JOLoot?
+
+    @Query("SELECT * FROM joloot")
+    fun getLoots(): Flow<List<JOLoot>>
+}
