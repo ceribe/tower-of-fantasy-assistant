@@ -9,6 +9,8 @@ class JOLootRepositoryImpl(
 
     override suspend fun deleteLoot(loot: JOLoot) = dao.deleteLoot(loot)
 
+    override suspend fun deleteLootById(id: Int) = dao.deleteLootById(id)
+
     override suspend fun getLootById(id: Int) = dao.getLootById(id)
 
     override fun getLoots(): Flow<List<JOLoot>> = dao.getLoots()

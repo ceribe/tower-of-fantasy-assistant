@@ -82,4 +82,7 @@ dependencies {
 
     // Additional icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // Status bar color needs this
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 }

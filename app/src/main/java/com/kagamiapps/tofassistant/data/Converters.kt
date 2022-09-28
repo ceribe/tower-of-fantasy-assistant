@@ -5,7 +5,7 @@ import com.kagamiapps.tofassistant.data.consts.Drop
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
 
-class Converters {
+object Converters {
 
     @TypeConverter
     fun fromDropList(drops: List<Drop>): String {
@@ -14,6 +14,8 @@ class Converters {
 
     @TypeConverter
     fun toDropList(drops: String): List<Drop> {
+        if (drops == "")
+            return emptyList()
         return drops.split(",").map { Drop.getById(it.toInt()) }
     }
 

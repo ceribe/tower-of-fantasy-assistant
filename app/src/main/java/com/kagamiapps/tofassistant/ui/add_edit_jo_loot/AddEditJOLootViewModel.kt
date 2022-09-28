@@ -77,7 +77,7 @@ class AddEditJOLootViewModel @Inject constructor(
             is AddEditJOLootEvent.OnJOChange -> {
                 jo = event.jo
             }
-            AddEditJOLootEvent.OnSaveJOLootClick -> {
+            is AddEditJOLootEvent.OnSaveJOLootClick -> {
                 viewModelScope.launch {
                     repository.upsertLoot(
                         JOLoot(
@@ -86,11 +86,23 @@ class AddEditJOLootViewModel @Inject constructor(
                             difficulty = difficulty,
                             jo = jo,
                             chestNo = chestNo,
-                            id = id
+                            id = if (id == -1) null else id
                         )
                     )
                     sendUiEvent(UiEvent.PopBackStack)
                 }
+            }
+            is AddEditJOLootEvent.OnDeleteClick -> {
+                viewModelScope.launch {
+                    repository.deleteLootById(id)
+                    sendUiEvent(UiEvent.PopBackStack)
+                }
+            }
+            is AddEditJOLootEvent.OnAddNewDrop -> {
+                drops = drops + event.drop
+            }
+            is AddEditJOLootEvent.OnDeleteDrop -> {
+                drops = drops.filterIndexed { index, _ -> index != event.index }
             }
         }
     }

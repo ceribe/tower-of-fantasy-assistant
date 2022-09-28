@@ -53,6 +53,8 @@ enum class JointOperation(
         fun getById(id: Int) = values().first { it.id == id }
         fun getByName(name: String) = values().first { it.instanceName == name }
     }
+
+    fun getAllDrops() = equipmentSR + equipmentSSR + matrixSR + matrixSSR
 }
 
 enum class JODifficulty(val level: Int) {

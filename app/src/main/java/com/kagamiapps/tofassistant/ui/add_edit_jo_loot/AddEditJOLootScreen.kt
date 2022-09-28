@@ -3,10 +3,16 @@ package com.kagamiapps.tofassistant.ui.add_edit_jo_loot
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -14,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kagamiapps.tofassistant.data.consts.Drop
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
 import com.kagamiapps.tofassistant.ui.composables.ComboBox
@@ -36,6 +43,23 @@ fun AddEditJOLootScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
+        topBar = {
+                 TopAppBar(
+                     title = { Text(text = "Input data") },
+                     actions = {
+                         IconButton(
+                             onClick = {
+                                 viewModel.onEvent(AddEditJOLootEvent.OnDeleteClick)
+                             }
+                         ) {
+                             Icon(
+                                 imageVector = Icons.Default.Delete,
+                                 contentDescription = "Delete"
+                             )
+                         }
+                     }
+                 )
+        },
         modifier = Modifier
             .fillMaxSize(),
         floatingActionButton = {
@@ -52,8 +76,10 @@ fun AddEditJOLootScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
         ) {
+            GrayLine()
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
@@ -106,7 +132,6 @@ fun AddEditJOLootScreen(
                     )
                 }
             )
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -125,7 +150,30 @@ fun AddEditJOLootScreen(
                 )
             }
             GrayLine()
-            // TODO Drops
+            Column(
+                modifier = Modifier
+                    .background(bgColor)
+            ) {
+                viewModel.drops.forEachIndexed { index, drop ->
+                    EditableDrop(drop, index, viewModel::onEvent)
+                    GrayLine()
+                }
+            }
+            ComboBox(
+                label = "Add Drop",
+                testTag = "ADD_DROP_COMBOBOX",
+                value = "",
+                suggestions = viewModel.jo.getAllDrops().map { it.itemName },
+                editable = false,
+                onChangeCallback = {
+                    viewModel.onEvent(
+                        AddEditJOLootEvent.OnAddNewDrop(
+                            Drop.getByName(it)
+                        )
+                    )
+                }
+            )
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
@@ -138,4 +186,28 @@ fun GrayLine() {
             .height(1.dp)
             .background(MaterialTheme.colors.onSurface.copy(alpha = 0.42f))
     ) {}
+}
+
+@Composable
+fun EditableDrop(
+    drop: Drop,
+    index: Int,
+    onEvent: (AddEditJOLootEvent) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .padding(start = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = drop.itemName)
+        IconButton(onClick = { onEvent(AddEditJOLootEvent.OnDeleteDrop(index)) }) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete Drop"
+            )
+        }
+    }
 }

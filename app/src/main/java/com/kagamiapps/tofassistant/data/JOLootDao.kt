@@ -16,6 +16,9 @@ interface JOLootDao {
     @Delete
     suspend fun deleteLoot(loot: JOLoot)
 
+    @Query("DELETE FROM joloot WHERE id = :id")
+    suspend fun deleteLootById(id: Int)
+
     @Query("SELECT * FROM joloot WHERE id = :id")
     suspend fun getLootById(id: Int): JOLoot?
 

@@ -50,7 +50,7 @@ fun JOLootListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(loots.value) {loot ->
+            items(loots.value.asReversed()) {loot ->
                 JOLootItem(
                     loot = loot,
                     onEvent = viewModel::onEvent,

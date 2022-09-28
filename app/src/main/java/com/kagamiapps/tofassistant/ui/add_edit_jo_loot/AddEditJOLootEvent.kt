@@ -11,4 +11,7 @@ sealed class AddEditJOLootEvent {
     data class OnJOChange(val jo: JointOperation): AddEditJOLootEvent()
     data class OnChestNoChange(val chestNo: Int): AddEditJOLootEvent()
     object OnSaveJOLootClick: AddEditJOLootEvent()
+    object OnDeleteClick: AddEditJOLootEvent()
+    data class OnAddNewDrop(val drop: Drop): AddEditJOLootEvent()
+    data class OnDeleteDrop(val index: Int): AddEditJOLootEvent()
 }
