@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JOLootListViewModel @Inject constructor(
-    private val repository: JOLootRepository
+    repository: JOLootRepository
 ): ViewModel() {
 
     val loots = repository.getLoots()
