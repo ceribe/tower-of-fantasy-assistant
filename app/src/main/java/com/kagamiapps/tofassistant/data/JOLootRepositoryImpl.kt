@@ -14,4 +14,6 @@ class JOLootRepositoryImpl(
     override suspend fun getLootById(id: Int) = dao.getLootById(id)
 
     override fun getLoots(): Flow<List<JOLoot>> = dao.getLoots()
+
+    override suspend fun getLastLoot(): JOLoot? = dao.getLastLoot()
 }

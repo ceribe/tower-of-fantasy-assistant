@@ -24,4 +24,7 @@ interface JOLootDao {
 
     @Query("SELECT * FROM joloot")
     fun getLoots(): Flow<List<JOLoot>>
+
+    @Query("SELECT * FROM joloot WHERE id = (SELECT MAX(id) from joloot)")
+    suspend fun getLastLoot(): JOLoot?
 }

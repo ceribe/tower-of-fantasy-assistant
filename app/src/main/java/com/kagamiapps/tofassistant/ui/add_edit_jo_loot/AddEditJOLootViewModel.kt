@@ -47,8 +47,16 @@ class AddEditJOLootViewModel @Inject constructor(
 
     init {
         id = savedStateHandle.get<Int>("id")!!
-        if (id != -1) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (id == -1) {
+                repository.getLastLoot()?.let {
+                    isChipUsed = it.isChipUsed
+                    difficulty = it.difficulty
+                    jo = it.jo
+                    chestNo = it.chestNo
+                }
+            }
+            else {
                 repository.getLootById(id)?.let { loot ->
                     drops = loot.drops
                     isChipUsed = loot.isChipUsed

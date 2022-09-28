@@ -13,4 +13,6 @@ interface JOLootRepository {
     suspend fun getLootById(id: Int): JOLoot?
 
     fun getLoots(): Flow<List<JOLoot>>
+
+    suspend fun getLastLoot(): JOLoot?
 }
