@@ -3,12 +3,14 @@ package com.kagamiapps.tofassistant.ui.jo_drop_stats
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kagamiapps.tofassistant.data.JOLootRepository
-import com.kagamiapps.tofassistant.data.consts.Drop
 import com.kagamiapps.tofassistant.data.consts.DropType
 import com.kagamiapps.tofassistant.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -20,7 +20,6 @@ import com.kagamiapps.tofassistant.ui.theme.PurpleSR
 @Composable
 fun JOLootItem(
     loot: JOLoot,
-    onEvent: (JOLootListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(

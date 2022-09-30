@@ -53,7 +53,6 @@ fun JOLootListScreen(
             items(loots.value.asReversed()) {loot ->
                 JOLootItem(
                     loot = loot,
-                    onEvent = viewModel::onEvent,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {

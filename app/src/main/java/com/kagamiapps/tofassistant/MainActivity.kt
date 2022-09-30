@@ -1,22 +1,17 @@
 package com.kagamiapps.tofassistant
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.QueryStats
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,17 +38,22 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TowerOfFantasyAssistantTheme {
-                    val navController = rememberNavController()
+                val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
 
                 Scaffold(
                     bottomBar = {
                         BottomNavigation {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
                             bottomRoutes.forEach { (route, icon, text) ->
                                 BottomNavigationItem(
                                     selected = navBackStackEntry?.destination?.route == route,
                                     onClick = { navController.navigate(route) },
-                                    icon = { Icon(imageVector = icon, contentDescription = text) },
+                                    icon = {
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = text
+                                        )
+                                    },
                                     label = { Text(text = text) }
                                 )
                             }
@@ -87,9 +87,7 @@ class MainActivity : ComponentActivity() {
                                 })
                             }
                             composable(Routes.JO_DROP_STATS) {
-                                JODropStatsScreen(onNavigate = {
-                                    navController.navigate(it.route)
-                                })
+                                JODropStatsScreen()
                             }
                         }
                     }

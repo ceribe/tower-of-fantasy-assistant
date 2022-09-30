@@ -12,11 +12,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.data.consts.DropType
-import com.kagamiapps.tofassistant.util.UiEvent
 
 @Composable
 fun JODropStatsScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: JODropStatsViewModel = hiltViewModel()
 ) {
     val numberOfChestsSinceLastDropOfType by
@@ -44,7 +42,6 @@ fun JODropStatsScreen(
                         text = dropType.typeName,
                         color = dropType.color
                     )
-
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -52,15 +49,13 @@ fun JODropStatsScreen(
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(text = "Average")
-                            Text(text = "%.4f".format(averageNumberOfDropsOfType[dropType]))
+                            Text(text = "%.3f".format(averageNumberOfDropsOfType[dropType]))
                         }
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(text = "Chests since last", textAlign = TextAlign.Center)
@@ -68,7 +63,6 @@ fun JODropStatsScreen(
                         }
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(text = "Total")
