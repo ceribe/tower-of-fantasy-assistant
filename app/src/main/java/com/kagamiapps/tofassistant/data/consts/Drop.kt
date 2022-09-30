@@ -1,5 +1,9 @@
 package com.kagamiapps.tofassistant.data.consts
 
+import androidx.compose.ui.graphics.Color
+import com.kagamiapps.tofassistant.ui.theme.OrangeSSR
+import com.kagamiapps.tofassistant.ui.theme.PurpleSR
+
 enum class Drop(val id: Int, val itemName: String, val type: DropType) {
     SSRHelm(1, "SSR Helm", DropType.SSREquipment),
     SSRSpaulders(2, "SSR Spaulders", DropType.SSREquipment),
@@ -46,9 +50,9 @@ enum class Drop(val id: Int, val itemName: String, val type: DropType) {
     }
 }
 
-enum class DropType {
-    SREquipment,
-    SSREquipment,
-    SRMatrix,
-    SSRMatrix
+enum class DropType(val typeName: String, val color: Color) {
+    SREquipment("SR Equipment", PurpleSR),
+    SSREquipment("SSR Equipment", OrangeSSR),
+    SRMatrix("SR Matrix", PurpleSR),
+    SSRMatrix("SSR Matrix", OrangeSSR)
 }

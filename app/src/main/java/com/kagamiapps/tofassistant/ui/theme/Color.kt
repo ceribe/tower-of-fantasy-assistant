@@ -6,3 +6,6 @@ val AquaPastel = Color(0xff78bec4)
 val AquaPastelLight = Color(0xff88d8df)
 val AquaLight = Color(0xff01d4e5)
 val AquaDark = Color(0xff00727c)
+
+val PurpleSR = Color(0xffbb47e1)
+val OrangeSSR = Color(0xffe58631)

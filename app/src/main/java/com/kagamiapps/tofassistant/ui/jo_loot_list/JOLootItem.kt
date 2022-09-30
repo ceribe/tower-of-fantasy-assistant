@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kagamiapps.tofassistant.data.JOLoot
 import com.kagamiapps.tofassistant.data.consts.DropType
+import com.kagamiapps.tofassistant.ui.theme.OrangeSSR
+import com.kagamiapps.tofassistant.ui.theme.PurpleSR
 
 @Composable
 fun JOLootItem(
@@ -21,8 +23,6 @@ fun JOLootItem(
     onEvent: (JOLootListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val purple = Color(0xffbb47e1)
-    val orange = Color(0xffe58631)
     Card(
         modifier = Modifier
             .padding(1.dp)
@@ -35,19 +35,19 @@ fun JOLootItem(
             Row {
                 SmallColoredCircle(
                     color = if (loot.drops.any { it.type == DropType.SREquipment })
-                        purple else Color.Gray
+                        PurpleSR else Color.Gray
                 )
                 SmallColoredCircle(
                     color = if (loot.drops.any { it.type == DropType.SSREquipment })
-                        orange else Color.Gray
+                        OrangeSSR else Color.Gray
                 )
                 SmallColoredCircle(
                     color = if (loot.drops.any { it.type == DropType.SRMatrix })
-                        purple else Color.Gray
+                        PurpleSR else Color.Gray
                 )
                 SmallColoredCircle(
                     color = if (loot.drops.any { it.type == DropType.SSRMatrix })
-                        orange else Color.Gray
+                        OrangeSSR else Color.Gray
                 )
             }
         }
