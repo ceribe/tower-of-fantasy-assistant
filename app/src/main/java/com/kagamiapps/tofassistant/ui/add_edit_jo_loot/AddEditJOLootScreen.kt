@@ -143,20 +143,6 @@ fun AddEditJOLootScreen(
                 )
             }
             GrayLine()
-//            ComboBox(
-//                label = "Add Drop",
-//                testTag = "ADD_DROP_COMBOBOX",
-//                value = "",
-//                suggestions = viewModel.jo.getAllDrops().map { it.itemName },
-//                editable = false,
-//                onChangeCallback = {
-//                    viewModel.onEvent(
-//                        AddEditJOLootEvent.OnAddNewDrop(
-//                            Drop.getByName(it)
-//                        )
-//                    )
-//                }
-//            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
