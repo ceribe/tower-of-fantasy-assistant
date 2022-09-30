@@ -8,8 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -144,6 +143,58 @@ fun AddEditJOLootScreen(
                 )
             }
             GrayLine()
+//            ComboBox(
+//                label = "Add Drop",
+//                testTag = "ADD_DROP_COMBOBOX",
+//                value = "",
+//                suggestions = viewModel.jo.getAllDrops().map { it.itemName },
+//                editable = false,
+//                onChangeCallback = {
+//                    viewModel.onEvent(
+//                        AddEditJOLootEvent.OnAddNewDrop(
+//                            Drop.getByName(it)
+//                        )
+//                    )
+//                }
+//            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var expanded by remember { mutableStateOf(false) }
+                Button(
+                    modifier = Modifier
+                        .height(56.dp)
+                        .padding(4.dp),
+                    onClick = { expanded = !expanded },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
+                ) {
+                    Text(text = "Add drop")
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        viewModel.jo.getAllDrops().map { it.itemName }.forEach { label ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    expanded = false
+                                    viewModel.onEvent(
+                                        AddEditJOLootEvent.OnAddNewDrop(
+                                            Drop.getByName(label)
+                                        )
+                                    )
+                                }
+                            ) {
+                                Text(text = label)
+                            }
+                        }
+                    }
+                }
+            }
+            if (viewModel.drops.isNotEmpty())
+                GrayLine()
+
             Column(
                 modifier = Modifier
                     .background(bgColor)
@@ -153,20 +204,6 @@ fun AddEditJOLootScreen(
                     GrayLine()
                 }
             }
-            ComboBox(
-                label = "Add Drop",
-                testTag = "ADD_DROP_COMBOBOX",
-                value = "",
-                suggestions = viewModel.jo.getAllDrops().map { it.itemName },
-                editable = false,
-                onChangeCallback = {
-                    viewModel.onEvent(
-                        AddEditJOLootEvent.OnAddNewDrop(
-                            Drop.getByName(it)
-                        )
-                    )
-                }
-            )
             Spacer(modifier = Modifier.height(100.dp))
         }
     }
