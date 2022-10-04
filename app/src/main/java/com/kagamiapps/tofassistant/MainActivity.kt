@@ -25,12 +25,7 @@ import com.kagamiapps.tofassistant.ui.theme.TowerOfFantasyAssistantTheme
 import com.kagamiapps.tofassistant.util.Routes
 import dagger.hilt.android.AndroidEntryPoint
 
-data class BottomRoute(val route: String, val icon: ImageVector, val text: String)
 
-val bottomRoutes = listOf(
-    BottomRoute(Routes.JO_LOOT_LIST, Icons.Default.List, "JO Drops"),
-    BottomRoute(Routes.JO_DROP_STATS, Icons.Default.QueryStats, "JO Stats")
-)
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,27 +34,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TowerOfFantasyAssistantTheme {
                 val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-                Scaffold(
-                    bottomBar = {
-                        BottomNavigation {
-                            bottomRoutes.forEach { (route, icon, text) ->
-                                BottomNavigationItem(
-                                    selected = navBackStackEntry?.destination?.route == route,
-                                    onClick = { navController.navigate(route) },
-                                    icon = {
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = text
-                                        )
-                                    },
-                                    label = { Text(text = text) }
-                                )
-                            }
-                        }
-                    }
-                ) { padding ->
+                Scaffold { padding ->
                     Column(
                         modifier = Modifier.padding(padding)
                     ) {
@@ -87,7 +63,9 @@ class MainActivity : ComponentActivity() {
                                 })
                             }
                             composable(Routes.JO_DROP_STATS) {
-                                JODropStatsScreen()
+                                JODropStatsScreen(onNavigate = {
+                                    navController.navigate(it.route)
+                                })
                             }
                         }
                     }
