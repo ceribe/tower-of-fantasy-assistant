@@ -1,6 +1,8 @@
 package com.kagamiapps.tofassistant.ui.jo_drop_stats
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -31,10 +33,17 @@ fun JODropStatsScreen(
     val averageNumberOfDropsOfType by
         viewModel.averageNumberOfDropsOfType.collectAsState(initial = emptyMap())
 
+    val longestStreakWithoutDropOfType by
+        viewModel.longestStreakWithoutDropOfType.collectAsState(initial = emptyMap())
+
     Scaffold(
         bottomBar = { MainBottomNav(onNavigate = onNavigate, selectedRoute = Routes.JO_DROP_STATS) },
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+        ) {
             DropType.values().forEach { dropType ->
                 Card(
                     modifier = Modifier
@@ -66,7 +75,7 @@ fun JODropStatsScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text(text = "Chests since last", textAlign = TextAlign.Center)
+                                Text(text = "Streak w/o drop", textAlign = TextAlign.Center)
                                 Text(text = numberOfChestsSinceLastDropOfType[dropType].toString())
                             }
                             Column(
@@ -76,6 +85,13 @@ fun JODropStatsScreen(
                                 Text(text = "Total")
                                 Text(text = totalDropsOfType[dropType].toString())
                             }
+                        }
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(top = 2.dp)
+                        ) {
+                            Text(text = "Longest streak w/o drop")
+                            Text(text = longestStreakWithoutDropOfType[dropType].toString())
                         }
                     }
                 }

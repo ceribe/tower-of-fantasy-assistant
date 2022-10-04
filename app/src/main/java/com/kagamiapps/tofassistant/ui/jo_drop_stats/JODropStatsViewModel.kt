@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.lang.Integer.max
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +39,18 @@ class JODropStatsViewModel @Inject constructor(
     val averageNumberOfDropsOfType = loots.map { loots ->
         DropType.values().associateWith { dropType ->
             loots.sumOf { loot -> loot.drops.count { it.type == dropType } }.toFloat() / loots.size
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
+
+    val longestStreakWithoutDropOfType = loots.map { loots ->
+        DropType.values().associateWith { dropType ->
+            loots.fold(0 to 0) { (consecutiveMax, curr), joLoot ->
+                val doesContain = joLoot.drops.any { it.type == dropType }
+                if (doesContain)
+                    consecutiveMax to 0
+                else
+                    max(consecutiveMax, curr + 1) to curr + 1
+            }.first
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
