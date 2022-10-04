@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface JOLootDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertLoot(loot: JOLoot)
 

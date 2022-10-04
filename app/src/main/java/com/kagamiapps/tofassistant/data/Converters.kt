@@ -6,7 +6,6 @@ import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
 
 object Converters {
-
     @TypeConverter
     fun fromDropList(drops: List<Drop>): String {
         return drops.map { it.id }.joinToString(",")

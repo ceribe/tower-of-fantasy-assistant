@@ -3,7 +3,6 @@ package com.kagamiapps.tofassistant.data
 import kotlinx.coroutines.flow.Flow
 
 interface JOLootRepository {
-
     suspend fun upsertLoot(loot: JOLoot)
 
     suspend fun deleteLoot(loot: JOLoot)

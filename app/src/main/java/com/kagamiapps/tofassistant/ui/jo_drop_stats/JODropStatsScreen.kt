@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.data.consts.DropType
 import com.kagamiapps.tofassistant.ui.composables.MainBottomNav
-import com.kagamiapps.tofassistant.ui.composables.bottomRoutes
 import com.kagamiapps.tofassistant.util.Routes
 import com.kagamiapps.tofassistant.util.UiEvent
 
@@ -33,7 +32,7 @@ fun JODropStatsScreen(
         viewModel.averageNumberOfDropsOfType.collectAsState(initial = emptyMap())
 
     Scaffold(
-        bottomBar = { MainBottomNav(onNavigate = onNavigate, routes = bottomRoutes, selectedRoute = Routes.JO_DROP_STATS) },
+        bottomBar = { MainBottomNav(onNavigate = onNavigate, selectedRoute = Routes.JO_DROP_STATS) },
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             DropType.values().forEach { dropType ->

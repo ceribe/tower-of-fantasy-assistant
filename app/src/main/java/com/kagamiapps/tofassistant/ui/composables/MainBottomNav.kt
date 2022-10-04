@@ -4,26 +4,16 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.QueryStats
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.kagamiapps.tofassistant.util.Routes
+import com.kagamiapps.tofassistant.util.BottomRoute
 import com.kagamiapps.tofassistant.util.UiEvent
-
-data class BottomRoute(val route: String, val icon: ImageVector, val text: String)
-
-val bottomRoutes = listOf(
-    BottomRoute(Routes.JO_LOOT_LIST, Icons.Default.List, "JO Drops"),
-    BottomRoute(Routes.JO_DROP_STATS, Icons.Default.QueryStats, "JO Stats")
-)
+import com.kagamiapps.tofassistant.util.bottomRoutes
 
 @Composable
 fun MainBottomNav(
     onNavigate: (UiEvent.Navigate) -> Unit,
-    routes: List<BottomRoute>,
-    selectedRoute: String
+    selectedRoute: String,
+    routes: List<BottomRoute> = bottomRoutes,
 ) {
     BottomNavigation {
         routes.forEach { (route, icon, text) ->

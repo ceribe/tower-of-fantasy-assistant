@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.ui.composables.MainBottomNav
-import com.kagamiapps.tofassistant.ui.composables.bottomRoutes
 import com.kagamiapps.tofassistant.util.Routes
 import com.kagamiapps.tofassistant.util.UiEvent
 
@@ -37,7 +36,7 @@ fun JOLootListScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { MainBottomNav(onNavigate = onNavigate, routes = bottomRoutes, selectedRoute = Routes.JO_LOOT_LIST) },
+        bottomBar = { MainBottomNav(onNavigate = onNavigate, selectedRoute = Routes.JO_LOOT_LIST) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(JOLootListEvent.OnCreateLootClick)
