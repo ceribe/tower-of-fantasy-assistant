@@ -8,14 +8,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kagamiapps.tofassistant.data.JOLoot
 import com.kagamiapps.tofassistant.data.consts.DropType
-import com.kagamiapps.tofassistant.ui.theme.OrangeSSR
-import com.kagamiapps.tofassistant.ui.theme.PurpleSR
 
 @Composable
 fun JOLootItem(
@@ -32,22 +31,13 @@ fun JOLootItem(
         ) {
             Text(text = "${loot.jo.instanceName} ${loot.difficulty}")
             Row {
-                SmallColoredCircle(
-                    color = if (loot.drops.any { it.type == DropType.SREquipment })
-                        PurpleSR else Color.Gray
-                )
-                SmallColoredCircle(
-                    color = if (loot.drops.any { it.type == DropType.SSREquipment })
-                        OrangeSSR else Color.Gray
-                )
-                SmallColoredCircle(
-                    color = if (loot.drops.any { it.type == DropType.SRMatrix })
-                        PurpleSR else Color.Gray
-                )
-                SmallColoredCircle(
-                    color = if (loot.drops.any { it.type == DropType.SSRMatrix })
-                        OrangeSSR else Color.Gray
-                )
+                DropType.values().forEach { dropType ->
+                    SmallColoredCircle(
+                        isDouble = loot.drops.filter { it.type == dropType }.size >= 2,
+                        color = if (loot.drops.any { it.type == dropType })
+                            dropType.color else Color.Gray
+                    )
+                }
             }
         }
     }
@@ -55,10 +45,11 @@ fun JOLootItem(
 
 @Composable
 fun SmallColoredCircle(
-    color: Color
+    isDouble: Boolean,
+    color: Color,
 ) {
     Icon(
-        imageVector = Icons.Filled.Circle,
+        imageVector = if (isDouble) Icons.Filled.RadioButtonChecked else Icons.Filled.Circle,
         tint = color,
         contentDescription = ""
     )
