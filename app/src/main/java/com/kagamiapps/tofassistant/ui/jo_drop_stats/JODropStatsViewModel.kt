@@ -24,9 +24,10 @@ class JODropStatsViewModel @Inject constructor(
 
     val numberOfChestsSinceLastDropOfType = loots.map { loots ->
         DropType.values().associateWith { dropType ->
-            loots.indexOfFirst {
+            val idx = loots.indexOfFirst {
                     loot -> loot.drops.any { drop -> drop.type == dropType }
-            }.coerceAtLeast(0)
+            }
+            if (idx == -1) loots.size else idx
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
