@@ -46,8 +46,8 @@ internal class AddEditJOLootViewModelTest {
         }
     }
 
-    lateinit var viewModel: AddEditJOLootViewModel
-    val repository = JOLootRepositoryMock()
+    private lateinit var viewModel: AddEditJOLootViewModel
+    private val repository = JOLootRepositoryMock()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -128,5 +128,33 @@ internal class AddEditJOLootViewModelTest {
         }
     }
 
-    //TODO Add the rest of tests
+    @Test
+    fun should_add_new_drop() {
+        val count = viewModel.drops.size
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnAddNewDrop(
+                Drop.CrowMatrix
+            )
+        )
+        assertEquals(count + 1, viewModel.drops.size)
+        assertEquals(Drop.CrowMatrix, viewModel.drops.last())
+    }
+
+    @Test
+    fun should_remove_drop() {
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnDropsChange(
+                listOf(Drop.CrowMatrix, Drop.KingMatrix)
+            )
+        )
+
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnDeleteDrop(
+                1
+            )
+        )
+
+        assertEquals(1, viewModel.drops.size)
+        assertEquals(Drop.CrowMatrix, viewModel.drops[0])
+    }
 }
