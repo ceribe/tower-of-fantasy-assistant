@@ -42,11 +42,16 @@ class AddEditJOLootViewModel @Inject constructor(
     var chestNo by mutableStateOf(3)
         private set
 
+    var isNew by mutableStateOf(true)
+        private set
+
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         id = savedStateHandle.get<Int>("id")!!
+        isNew = id == -1
+
         viewModelScope.launch {
             if (id == -1) {
                 repository.getLastLoot()?.let {

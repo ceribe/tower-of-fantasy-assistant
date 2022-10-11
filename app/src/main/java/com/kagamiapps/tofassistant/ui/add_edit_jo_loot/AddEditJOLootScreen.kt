@@ -38,17 +38,19 @@ fun AddEditJOLootScreen(
         scaffoldState = scaffoldState,
         topBar = {
                  TopAppBar(
-                     title = { Text(text = "Input data") },
+                     title = { Text(text = if (viewModel.isNew) "Add new entry" else "Edit entry") },
                      actions = {
-                         IconButton(
-                             onClick = {
-                                 viewModel.onEvent(AddEditJOLootEvent.OnDeleteClick)
+                         if (!viewModel.isNew) {
+                             IconButton(
+                                 onClick = {
+                                     viewModel.onEvent(AddEditJOLootEvent.OnDeleteClick)
+                                 }
+                             ) {
+                                 Icon(
+                                     imageVector = Icons.Default.Delete,
+                                     contentDescription = "Delete"
+                                 )
                              }
-                         ) {
-                             Icon(
-                                 imageVector = Icons.Default.Delete,
-                                 contentDescription = "Delete"
-                             )
                          }
                      }
                  )

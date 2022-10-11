@@ -157,4 +157,16 @@ internal class AddEditJOLootViewModelTest {
         assertEquals(1, viewModel.drops.size)
         assertEquals(Drop.CrowMatrix, viewModel.drops[0])
     }
+
+    @Test
+    fun should_is_new_be_set() {
+        val stateHande = SavedStateHandle()
+        stateHande["id"] = -1
+        val viewModel1 = AddEditJOLootViewModel(repository, stateHande)
+        assertEquals(true, viewModel1.isNew)
+
+        stateHande["id"] = 1
+        val viewModel2 = AddEditJOLootViewModel(repository, stateHande)
+        assertEquals(false, viewModel2.isNew)
+    }
 }
