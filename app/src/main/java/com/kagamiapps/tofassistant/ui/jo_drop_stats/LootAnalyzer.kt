@@ -20,7 +20,10 @@ object LootAnalyzer {
 
     fun calculateAverageNumberOfDropsOfType(loots: List<JOLoot>): Map<DropType, Float> =
         DropType.values().associateWith { dropType ->
-            loots.sumOf { loot -> loot.drops.count { it.type == dropType } }.toFloat() / loots.size
+            if (loots.isEmpty())
+                0.0f
+            else
+                loots.sumOf { loot -> loot.drops.count { it.type == dropType } }.toFloat() / loots.size
         }
 
     fun calculateLongestStreakWithoutDropOfType(loots: List<JOLoot>): Map<DropType, Int> =

@@ -11,7 +11,7 @@ internal class LootAnalyzerTest {
         JOLoot(drops = listOf()),
         JOLoot(drops = listOf(Drop.SRSuit, Drop.SRBoots, Drop.SRArmbands)),
         JOLoot(drops = listOf()),
-        JOLoot(drops = listOf(Drop.KingMatrix, Drop.SRHelmet)),
+        JOLoot(drops = listOf(Drop.SRHelmet)),
         JOLoot(drops = listOf(Drop.EchoMatrix)),
         JOLoot(drops = listOf(Drop.SSRArmor, Drop.SSRSabatons)),
         JOLoot(drops = listOf()),
@@ -25,7 +25,7 @@ internal class LootAnalyzerTest {
             assertEquals(1, this[DropType.SREquipment])
             assertEquals(5, this[DropType.SSREquipment])
             assertEquals(4, this[DropType.SRMatrix])
-            assertEquals(3, this[DropType.SSRMatrix])
+            assertEquals(9, this[DropType.SSRMatrix])
         }
     }
 
@@ -35,7 +35,7 @@ internal class LootAnalyzerTest {
             assertEquals(4, this[DropType.SREquipment])
             assertEquals(2, this[DropType.SSREquipment])
             assertEquals(2, this[DropType.SRMatrix])
-            assertEquals(1, this[DropType.SSRMatrix])
+            assertEquals(0, this[DropType.SSRMatrix])
         }
     }
 
@@ -45,7 +45,7 @@ internal class LootAnalyzerTest {
             assertEquals(4.0f/loots.size, this[DropType.SREquipment]!!, 0.01f)
             assertEquals(2.0f/loots.size, this[DropType.SSREquipment]!!, 0.01f)
             assertEquals(2.0f/loots.size, this[DropType.SRMatrix]!!, 0.01f)
-            assertEquals(1.0f/loots.size, this[DropType.SSRMatrix]!!, 0.01f)
+            assertEquals(0.0f/loots.size, this[DropType.SSRMatrix]!!, 0.01f)
         }
     }
 
@@ -55,7 +55,14 @@ internal class LootAnalyzerTest {
             assertEquals(5, this[DropType.SREquipment])
             assertEquals(5, this[DropType.SSREquipment])
             assertEquals(4, this[DropType.SRMatrix])
-            assertEquals(5, this[DropType.SSRMatrix])
+            assertEquals(9, this[DropType.SSRMatrix])
+        }
+    }
+
+    @Test
+    fun should_calculate_average_number_of_drops_of_type_when_no_data() {
+        with(LootAnalyzer.calculateAverageNumberOfDropsOfType(emptyList())) {
+            assertEquals(0.0f, this[DropType.SSRMatrix]!!, 0.01f)
         }
     }
 }
