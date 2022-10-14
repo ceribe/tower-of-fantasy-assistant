@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.R
 import com.kagamiapps.tofassistant.data.consts.Drop
+import com.kagamiapps.tofassistant.data.consts.DropType
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
 import com.kagamiapps.tofassistant.ui.composables.ComboBox
@@ -205,23 +206,24 @@ private fun AddDropButton(viewModel: AddEditJOLootViewModel) {
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
     ) {
         Text(text = "Add drop")
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            viewModel.jo.getAllDrops().map { it.itemName }.forEach { label ->
-                DropdownMenuItem(
-                    onClick = {
-                        expanded = false
-                        viewModel.onEvent(
-                            AddEditJOLootEvent.OnAddNewDrop(
-                                Drop.getByName(label)
-                            )
+    }
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+    ) {
+        viewModel.jo.getAllDrops().forEach { drop ->
+            DropdownMenuItem(
+                onClick = {
+                    expanded = false
+                    viewModel.onEvent(
+                        AddEditJOLootEvent.OnAddNewDrop(
+                            Drop.getByName(drop.itemName)
                         )
-                    }
-                ) {
-                    Text(text = label)
+                    )
                 }
+            ) {
+                DropIcon(dropImageId = drop.imageId)
+                Text(text = drop.itemName, modifier = Modifier.padding(start = 16.dp))
             }
         }
     }
@@ -263,6 +265,7 @@ private fun EditableDrop(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+            DropIcon(drop.imageId)
             Text(
                 text = drop.itemName,
                 modifier = Modifier.padding(start = 10.dp)
