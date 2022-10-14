@@ -9,9 +9,9 @@ import com.kagamiapps.tofassistant.data.consts.JointOperation
 @Entity
 data class JOLoot(
     val drops: List<Drop>,
-    val isChipUsed: Boolean,
-    val difficulty: JODifficulty,
-    val jo: JointOperation,
-    val chestNo: Int,
+    val isChipUsed: Boolean = true,
+    val difficulty: JODifficulty = JODifficulty.VIII,
+    val jo: JointOperation = JointOperation.QuarantineArea,
+    val chestNo: Int = 3,
     @PrimaryKey val id: Int? = null
 )
