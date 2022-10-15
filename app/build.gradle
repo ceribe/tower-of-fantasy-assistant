@@ -14,8 +14,8 @@ android {
         applicationId "com.kagamiapps.tofassistant"
         minSdk 24
         targetSdk 33
-        versionCode 8
-        versionName "1.0.2.1"
+        versionCode 9
+        versionName "1.1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
