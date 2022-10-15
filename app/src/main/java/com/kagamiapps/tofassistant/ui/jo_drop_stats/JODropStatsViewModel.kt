@@ -16,19 +16,19 @@ class JODropStatsViewModel @Inject constructor(
 
     private val loots = repository.getLoots().map { it.asReversed() }
 
-    val numberOfChestsSinceLastDropOfType = loots.map { loots ->
-        LootAnalyzer.calculateNumberOfChestsSinceLastDropOfType(loots)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
+    val numberOfChestsSinceLastDropOfType = loots
+        .map(LootAnalyzer::calculateNumberOfChestsSinceLastDropOfType)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
-    val totalDropsOfType = loots.map { loots ->
-        LootAnalyzer.calculateTotalDropsOfType(loots)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
+    val totalDropsOfType = loots
+        .map(LootAnalyzer::calculateTotalDropsOfType)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
-    val averageNumberOfDropsOfType = loots.map { loots ->
-        LootAnalyzer.calculateAverageNumberOfDropsOfType(loots)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
+    val averageNumberOfDropsOfType = loots
+        .map(LootAnalyzer::calculateAverageNumberOfDropsOfType)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
-    val longestStreakWithoutDropOfType = loots.map { loots ->
-        LootAnalyzer.calculateLongestStreakWithoutDropOfType(loots)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
+    val longestStreakWithoutDropOfType = loots
+        .map(LootAnalyzer::calculateLongestStreakWithoutDropOfType)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 }

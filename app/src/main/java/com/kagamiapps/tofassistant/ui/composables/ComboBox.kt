@@ -74,8 +74,6 @@ fun ComboBox(
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
-            modifier = Modifier
-                .background(MaterialTheme.colors.primary)
         ) {
             suggestions.forEach { label ->
                 DropdownMenuItem(

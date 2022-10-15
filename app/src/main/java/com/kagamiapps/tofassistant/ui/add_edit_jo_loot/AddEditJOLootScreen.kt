@@ -1,7 +1,5 @@
 package com.kagamiapps.tofassistant.ui.add_edit_jo_loot
 
-import android.graphics.drawable.Drawable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,14 +11,10 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kagamiapps.tofassistant.R
 import com.kagamiapps.tofassistant.data.consts.Drop
-import com.kagamiapps.tofassistant.data.consts.DropType
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
 import com.kagamiapps.tofassistant.ui.composables.ComboBox
@@ -213,6 +207,7 @@ private fun AddDropButton(viewModel: AddEditJOLootViewModel) {
     ) {
         viewModel.jo.getAllDrops().forEach { drop ->
             DropdownMenuItem(
+                modifier = Modifier.width(240.dp),
                 onClick = {
                     expanded = false
                     viewModel.onEvent(

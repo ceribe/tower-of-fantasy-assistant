@@ -94,7 +94,7 @@ class AddEditJOLootViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.upsertLoot(
                         JOLoot(
-                            drops = drops,
+                            drops = drops.sorted().sortedBy { it.type },
                             isChipUsed = isChipUsed,
                             difficulty = difficulty,
                             jo = jo,
