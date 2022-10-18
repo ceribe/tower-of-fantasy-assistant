@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.kagamiapps.tofassistant"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 9
         versionName "1.1.0.0"

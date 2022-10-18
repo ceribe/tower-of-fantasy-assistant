@@ -16,6 +16,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,6 +71,15 @@ class AddEditJOLootViewModel @Inject constructor(
                     jo = loot.jo
                     chestNo = loot.chestNo
                 }
+            }
+
+            when (LocalDate.now().dayOfWeek) {
+                DayOfWeek.MONDAY -> jo = JointOperation.QuarantineArea
+                DayOfWeek.TUESDAY -> jo = JointOperation.DeepseaStronghold
+                DayOfWeek.WEDNESDAY -> jo = JointOperation.HyenasArena
+                DayOfWeek.THURSDAY -> jo = JointOperation.DeepseaProvingGround
+                DayOfWeek.FRIDAY -> jo = JointOperation.SpacetimeTrainingGround
+                else -> {}
             }
         }
     }
