@@ -62,6 +62,14 @@ class AddEditJOLootViewModel @Inject constructor(
                     jo = it.jo
                     chestNo = it.chestNo
                 }
+                when (LocalDate.now().dayOfWeek) {
+                    DayOfWeek.MONDAY -> jo = JointOperation.QuarantineArea
+                    DayOfWeek.TUESDAY -> jo = JointOperation.DeepseaStronghold
+                    DayOfWeek.WEDNESDAY -> jo = JointOperation.HyenasArena
+                    DayOfWeek.THURSDAY -> jo = JointOperation.DeepseaProvingGround
+                    DayOfWeek.FRIDAY -> jo = JointOperation.SpacetimeTrainingGround
+                    else -> {}
+                }
             }
             else {
                 repository.getLootById(id)?.let { loot ->
@@ -71,15 +79,6 @@ class AddEditJOLootViewModel @Inject constructor(
                     jo = loot.jo
                     chestNo = loot.chestNo
                 }
-            }
-
-            when (LocalDate.now().dayOfWeek) {
-                DayOfWeek.MONDAY -> jo = JointOperation.QuarantineArea
-                DayOfWeek.TUESDAY -> jo = JointOperation.DeepseaStronghold
-                DayOfWeek.WEDNESDAY -> jo = JointOperation.HyenasArena
-                DayOfWeek.THURSDAY -> jo = JointOperation.DeepseaProvingGround
-                DayOfWeek.FRIDAY -> jo = JointOperation.SpacetimeTrainingGround
-                else -> {}
             }
         }
     }
