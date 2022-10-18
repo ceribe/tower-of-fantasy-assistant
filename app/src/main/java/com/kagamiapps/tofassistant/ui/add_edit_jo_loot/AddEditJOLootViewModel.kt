@@ -39,8 +39,7 @@ class AddEditJOLootViewModel @Inject constructor(
     var difficulty by mutableStateOf(JODifficulty.L70)
         private set
 
-    var jo = MutableStateFlow(JointOperation.DeepseaStronghold)
-        private set
+    val jo = MutableStateFlow(JointOperation.DeepseaStronghold)
 
     var chestNo by mutableStateOf(3)
         private set
