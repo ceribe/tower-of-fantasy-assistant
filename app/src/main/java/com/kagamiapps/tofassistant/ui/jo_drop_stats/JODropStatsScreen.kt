@@ -38,8 +38,6 @@ fun JODropStatsScreen(
     val longestStreakWithoutDropOfType by
         viewModel.longestStreakWithoutDropOfType.collectAsState(initial = emptyMap())
 
-    val region by viewModel.region.collectAsState(initial = Region.Aesperia)
-
     Scaffold(
         bottomBar = { MainBottomNav(onNavigate = onNavigate, selectedRoute = Routes.JO_DROP_STATS) },
     ) { paddingValues ->
@@ -48,32 +46,7 @@ fun JODropStatsScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            Card(
-                modifier = Modifier.padding(2.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp)
-                ) {
-                    Region.values().forEach {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .weight(1f)
-                        ) {
-                            RadioButton(
-                                onClick = { viewModel.onEvent(JODropStatsEvent.OnRegionChange(it)) },
-                                selected = it == region
-                            )
-                            Text(
-                                text = it.name,
-                            )
-                        }
-                    }
-                }
-            }
+            RegionFiler(viewModel)
 
             DropType.values().forEach { dropType ->
                 Card(
@@ -125,6 +98,40 @@ fun JODropStatsScreen(
                             Text(text = longestStreakWithoutDropOfType[dropType].toString())
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RegionFiler(
+    viewModel: JODropStatsViewModel
+) {
+    val region by viewModel.region.collectAsState(initial = Region.Aesperia)
+
+    Card(
+        modifier = Modifier.padding(2.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp)
+        ) {
+            Region.values().forEach {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    RadioButton(
+                        onClick = { viewModel.onEvent(JODropStatsEvent.OnRegionChange(it)) },
+                        selected = it == region
+                    )
+                    Text(
+                        text = it.name,
+                    )
                 }
             }
         }
