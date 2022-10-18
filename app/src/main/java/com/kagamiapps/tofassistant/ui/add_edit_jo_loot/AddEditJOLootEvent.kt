@@ -3,6 +3,7 @@ package com.kagamiapps.tofassistant.ui.add_edit_jo_loot
 import com.kagamiapps.tofassistant.data.consts.Drop
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
+import com.kagamiapps.tofassistant.data.consts.Region
 
 sealed class AddEditJOLootEvent {
     data class OnDropsChange(val drops: List<Drop>): AddEditJOLootEvent()

@@ -72,10 +72,10 @@ internal class AddEditJOLootViewModelTest {
     fun should_difficulty_change() {
         viewModel.onEvent(
             AddEditJOLootEvent.OnDifficultyChange(
-                JODifficulty.VI
+                JODifficulty.L60
             )
         )
-        assertEquals(JODifficulty.VI, viewModel.difficulty)
+        assertEquals(JODifficulty.L60, viewModel.difficulty)
     }
 
     @Test
@@ -116,7 +116,7 @@ internal class AddEditJOLootViewModelTest {
                 JointOperation.QuarantineArea
             )
         )
-        assertEquals(JointOperation.QuarantineArea, viewModel.jo)
+        assertEquals(JointOperation.QuarantineArea, viewModel.jo.value)
     }
 
     @Test
