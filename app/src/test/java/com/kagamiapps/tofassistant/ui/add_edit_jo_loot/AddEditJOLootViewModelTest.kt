@@ -170,4 +170,27 @@ internal class AddEditJOLootViewModelTest {
         val viewModel2 = AddEditJOLootViewModel(repository, stateHande)
         assertEquals(false, viewModel2.isNew)
     }
+
+    @Test
+    fun should_difficulty_change_after_changing_region() {
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.QuarantineArea
+            )
+        )
+
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.TheEndGame
+            )
+        )
+        assertEquals(JointOperation.TheEndGame.region.joDifficulties.last(), viewModel.difficulty)
+
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.QuarantineArea
+            )
+        )
+        assertEquals(JointOperation.QuarantineArea.region.joDifficulties.last(), viewModel.difficulty)
+    }
 }
