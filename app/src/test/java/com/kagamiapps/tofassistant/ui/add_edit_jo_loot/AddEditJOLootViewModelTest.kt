@@ -11,9 +11,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.setMain
-import org.junit.Test
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
+import org.junit.Test
 
 internal class AddEditJOLootViewModelTest {
 

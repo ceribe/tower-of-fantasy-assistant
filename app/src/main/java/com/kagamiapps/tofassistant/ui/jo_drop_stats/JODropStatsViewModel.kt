@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kagamiapps.tofassistant.data.JOLootRepository
 import com.kagamiapps.tofassistant.data.consts.Region
-import com.kagamiapps.tofassistant.ui.jo_loot_list.JOLootListEvent
-import com.kagamiapps.tofassistant.util.Routes
-import com.kagamiapps.tofassistant.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -18,7 +15,8 @@ class JODropStatsViewModel @Inject constructor(
 
     private val loots = repository.getLoots().map { it.asReversed() }
 
-    val region = MutableStateFlow(Region.Aesperia)
+    private val _region = MutableStateFlow(Region.Aesperia)
+    val region: StateFlow<Region> = _region
 
     private val filteredLoots = combine(loots, region) { loots, region ->
         loots.filter { it.jo.region == region }
@@ -44,7 +42,7 @@ class JODropStatsViewModel @Inject constructor(
     fun onEvent(event: JODropStatsEvent) {
         when(event) {
             is JODropStatsEvent.OnRegionChange -> {
-                region.value = event.region
+                _region.value = event.region
             }
         }
     }

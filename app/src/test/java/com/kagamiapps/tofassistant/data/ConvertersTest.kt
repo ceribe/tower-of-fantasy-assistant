@@ -1,8 +1,8 @@
 package com.kagamiapps.tofassistant.data
 
 import com.kagamiapps.tofassistant.data.consts.Drop
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.Assert.*
 
 class ConvertersTest {
     @Test
