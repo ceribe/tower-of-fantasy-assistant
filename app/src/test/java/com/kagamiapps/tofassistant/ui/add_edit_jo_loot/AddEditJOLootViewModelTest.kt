@@ -11,9 +11,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.setMain
-import org.junit.Test
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
+import org.junit.Test
 
 internal class AddEditJOLootViewModelTest {
 
@@ -72,10 +73,10 @@ internal class AddEditJOLootViewModelTest {
     fun should_difficulty_change() {
         viewModel.onEvent(
             AddEditJOLootEvent.OnDifficultyChange(
-                JODifficulty.VI
+                JODifficulty.L60
             )
         )
-        assertEquals(JODifficulty.VI, viewModel.difficulty)
+        assertEquals(JODifficulty.L60, viewModel.difficulty)
     }
 
     @Test
@@ -116,7 +117,7 @@ internal class AddEditJOLootViewModelTest {
                 JointOperation.QuarantineArea
             )
         )
-        assertEquals(JointOperation.QuarantineArea, viewModel.jo)
+        assertEquals(JointOperation.QuarantineArea, viewModel.jo.value)
     }
 
     @Test
@@ -168,5 +169,28 @@ internal class AddEditJOLootViewModelTest {
         stateHande["id"] = 1
         val viewModel2 = AddEditJOLootViewModel(repository, stateHande)
         assertEquals(false, viewModel2.isNew)
+    }
+
+    @Test
+    fun should_difficulty_change_after_changing_region() {
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.QuarantineArea
+            )
+        )
+
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.TheEndGame
+            )
+        )
+        assertEquals(JointOperation.TheEndGame.region.joDifficulties.last(), viewModel.difficulty)
+
+        viewModel.onEvent(
+            AddEditJOLootEvent.OnJOChange(
+                JointOperation.QuarantineArea
+            )
+        )
+        assertEquals(JointOperation.QuarantineArea.region.joDifficulties.last(), viewModel.difficulty)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.data.consts.DropType
+import com.kagamiapps.tofassistant.data.consts.Region
 import com.kagamiapps.tofassistant.ui.composables.MainBottomNav
 import com.kagamiapps.tofassistant.util.Routes
 import com.kagamiapps.tofassistant.util.UiEvent
@@ -44,6 +46,8 @@ fun JODropStatsScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
+            RegionFiler(viewModel)
+
             DropType.values().forEach { dropType ->
                 Card(
                     modifier = Modifier
@@ -94,6 +98,40 @@ fun JODropStatsScreen(
                             Text(text = longestStreakWithoutDropOfType[dropType].toString())
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RegionFiler(
+    viewModel: JODropStatsViewModel
+) {
+    val region by viewModel.region.collectAsState(initial = Region.Aesperia)
+
+    Card(
+        modifier = Modifier.padding(2.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp)
+        ) {
+            Region.values().forEach {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    RadioButton(
+                        onClick = { viewModel.onEvent(JODropStatsEvent.OnRegionChange(it)) },
+                        selected = it == region
+                    )
+                    Text(
+                        text = it.name,
+                    )
                 }
             }
         }

@@ -11,10 +11,11 @@ import com.kagamiapps.tofassistant.data.JOLootRepository
 import com.kagamiapps.tofassistant.data.consts.Drop
 import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
+import com.kagamiapps.tofassistant.data.consts.Region
 import com.kagamiapps.tofassistant.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -35,17 +36,21 @@ class AddEditJOLootViewModel @Inject constructor(
     var isChipUsed by mutableStateOf(true)
         private set
 
-    var difficulty by mutableStateOf(JODifficulty.VIII)
+    var difficulty by mutableStateOf(JODifficulty.L70)
         private set
 
-    var jo by mutableStateOf(JointOperation.DeepseaStronghold)
-        private set
+    private val _jo = MutableStateFlow(JointOperation.DeepseaStronghold)
+    val jo: StateFlow<JointOperation> = _jo
 
     var chestNo by mutableStateOf(3)
         private set
 
     var isNew by mutableStateOf(true)
         private set
+
+    var region = jo
+        .map { it.region }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Region.Aesperia)
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -56,19 +61,34 @@ class AddEditJOLootViewModel @Inject constructor(
 
         viewModelScope.launch {
             if (id == -1) {
-                repository.getLastLoot()?.let {
+                val lastLoot = repository.getLastLoot()
+                lastLoot?.let {
                     isChipUsed = it.isChipUsed
                     difficulty = it.difficulty
-                    jo = it.jo
+                    _jo.value = it.jo
                     chestNo = it.chestNo
                 }
-                when (LocalDate.now().dayOfWeek) {
-                    DayOfWeek.MONDAY -> jo = JointOperation.QuarantineArea
-                    DayOfWeek.TUESDAY -> jo = JointOperation.DeepseaStronghold
-                    DayOfWeek.WEDNESDAY -> jo = JointOperation.HyenasArena
-                    DayOfWeek.THURSDAY -> jo = JointOperation.DeepseaProvingGround
-                    DayOfWeek.FRIDAY -> jo = JointOperation.SpacetimeTrainingGround
-                    else -> {}
+
+                when (lastLoot?.jo?.region ?: Region.Aesperia) {
+                    Region.Aesperia ->
+                        when (LocalDate.now().dayOfWeek) {
+                            DayOfWeek.MONDAY -> _jo.value = JointOperation.QuarantineArea
+                            DayOfWeek.TUESDAY -> _jo.value = JointOperation.DeepseaStronghold
+                            DayOfWeek.WEDNESDAY -> _jo.value = JointOperation.HyenasArena
+                            DayOfWeek.THURSDAY -> _jo.value = JointOperation.DeepseaProvingGround
+                            DayOfWeek.FRIDAY -> _jo.value = JointOperation.SpacetimeTrainingGround
+                            else -> {} // On weekend there is too many JOs to auto select
+                        }
+                    Region.Vera ->
+                        when (LocalDate.now().dayOfWeek) {
+                            DayOfWeek.MONDAY -> _jo.value = JointOperation.TheEndGame
+                            DayOfWeek.TUESDAY -> _jo.value = JointOperation.SadnessValley
+                            DayOfWeek.WEDNESDAY -> _jo.value = JointOperation.TheEndGame
+                            DayOfWeek.THURSDAY -> _jo.value = JointOperation.SadnessValley
+                            DayOfWeek.FRIDAY -> _jo.value = JointOperation.TheEndGame
+                            DayOfWeek.SATURDAY -> _jo.value = JointOperation.SadnessValley
+                            else -> {} // On sunday there is too many JOs to auto select
+                        }
                 }
             }
             else {
@@ -76,10 +96,12 @@ class AddEditJOLootViewModel @Inject constructor(
                     drops = loot.drops
                     isChipUsed = loot.isChipUsed
                     difficulty = loot.difficulty
-                    jo = loot.jo
+                    _jo.value = loot.jo
                     chestNo = loot.chestNo
                 }
             }
+            if (difficulty !in jo.value.region.joDifficulties)
+                difficulty = jo.value.region.joDifficulties.last()
         }
     }
 
@@ -98,7 +120,10 @@ class AddEditJOLootViewModel @Inject constructor(
                 isChipUsed = event.isChipUsed
             }
             is AddEditJOLootEvent.OnJOChange -> {
-                jo = event.jo
+                _jo.value = event.jo
+
+                if (difficulty !in jo.value.region.joDifficulties)
+                    difficulty = jo.value.region.joDifficulties.last()
             }
             is AddEditJOLootEvent.OnSaveJOLootClick -> {
                 viewModelScope.launch {
@@ -107,7 +132,7 @@ class AddEditJOLootViewModel @Inject constructor(
                             drops = drops.sorted().sortedBy { it.type },
                             isChipUsed = isChipUsed,
                             difficulty = difficulty,
-                            jo = jo,
+                            jo = jo.value,
                             chestNo = chestNo,
                             id = if (id == -1) null else id
                         )

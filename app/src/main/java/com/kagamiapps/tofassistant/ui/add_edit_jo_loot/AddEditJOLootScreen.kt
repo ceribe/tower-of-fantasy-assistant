@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kagamiapps.tofassistant.data.consts.Drop
-import com.kagamiapps.tofassistant.data.consts.JODifficulty
 import com.kagamiapps.tofassistant.data.consts.JointOperation
+import com.kagamiapps.tofassistant.data.consts.Region
 import com.kagamiapps.tofassistant.ui.composables.ComboBox
 import com.kagamiapps.tofassistant.ui.composables.DropIcon
 import com.kagamiapps.tofassistant.util.UiEvent
@@ -101,6 +101,7 @@ private fun DifficultySelection(
     bgColor: Color,
     viewModel: AddEditJOLootViewModel
 ) {
+    val region by viewModel.region.collectAsState(Region.Aesperia)
     GrayLine()
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -109,7 +110,7 @@ private fun DifficultySelection(
             .fillMaxWidth()
             .padding(bottom = 6.dp)
     ) {
-        JODifficulty.values().forEach {
+        region.joDifficulties.forEach {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -130,10 +131,11 @@ private fun DifficultySelection(
 
 @Composable
 private fun JOSelection(viewModel: AddEditJOLootViewModel) {
+    val jo by viewModel.jo.collectAsState(JointOperation.DeepseaStronghold)
     ComboBox(
         label = "Joint Operation",
         testTag = "JOINT_OPERATION_COMBOBOX",
-        value = viewModel.jo.instanceName,
+        value = jo.instanceName,
         suggestions = JointOperation.values().map { it.instanceName },
         editable = false,
         onChangeCallback = {
@@ -192,6 +194,7 @@ private fun ChipUsedSelection(
 @Composable
 private fun AddDropButton(viewModel: AddEditJOLootViewModel) {
     var expanded by remember { mutableStateOf(false) }
+    val jo by viewModel.jo.collectAsState(JointOperation.HyenasArena)
     Button(
         modifier = Modifier
             .height(56.dp)
@@ -205,9 +208,9 @@ private fun AddDropButton(viewModel: AddEditJOLootViewModel) {
         expanded = expanded,
         onDismissRequest = { expanded = false },
     ) {
-        viewModel.jo.getAllDrops().forEach { drop ->
+        jo.getAllDrops().forEach { drop ->
             DropdownMenuItem(
-                modifier = Modifier.width(240.dp),
+                modifier = Modifier.width(250.dp),
                 onClick = {
                     expanded = false
                     viewModel.onEvent(
