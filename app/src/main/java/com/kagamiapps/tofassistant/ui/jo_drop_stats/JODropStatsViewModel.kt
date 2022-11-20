@@ -15,11 +15,11 @@ class JODropStatsViewModel @Inject constructor(
 
     private val loots = repository.getLoots().map { it.asReversed() }
 
-    private val _region = MutableStateFlow(Region.Aesperia)
-    val region: StateFlow<Region> = _region
+    private val _region = MutableStateFlow<Region?>(null)
+    val region: StateFlow<Region?> = _region
 
     private val filteredLoots = combine(loots, region) { loots, region ->
-        loots.filter { it.jo.region == region }
+        loots.filter { region == null || it.jo.region == region }
     }
 
     val numberOfChestsSinceLastDropOfType = filteredLoots

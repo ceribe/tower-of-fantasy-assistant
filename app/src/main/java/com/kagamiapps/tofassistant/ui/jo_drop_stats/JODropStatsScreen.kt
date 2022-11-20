@@ -108,7 +108,8 @@ fun JODropStatsScreen(
 private fun RegionFiler(
     viewModel: JODropStatsViewModel
 ) {
-    val region by viewModel.region.collectAsState(initial = Region.Aesperia)
+    val region: Region? by viewModel.region.collectAsState(initial = null)
+    val regions = Region.values().toList().plus(null)
 
     Card(
         modifier = Modifier.padding(2.dp)
@@ -119,7 +120,7 @@ private fun RegionFiler(
                 .fillMaxWidth()
                 .padding(bottom = 6.dp)
         ) {
-            Region.values().forEach {
+            regions.forEach {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
@@ -130,7 +131,7 @@ private fun RegionFiler(
                         selected = it == region
                     )
                     Text(
-                        text = it.name,
+                        text = it?.name ?: "Both",
                     )
                 }
             }
