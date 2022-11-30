@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kagamiapps.tofassistant.ui.add_edit_jo_loot.AddEditJOLootScreen
+import com.kagamiapps.tofassistant.ui.crit_comparer.CritComparerScreen
 import com.kagamiapps.tofassistant.ui.jo_drop_stats.JODropStatsScreen
 import com.kagamiapps.tofassistant.ui.jo_loot_list.JOLootListScreen
 import com.kagamiapps.tofassistant.ui.theme.TowerOfFantasyAssistantTheme
@@ -60,6 +61,14 @@ class MainActivity : ComponentActivity() {
                                 route = Routes.JO_DROP_STATS
                             ) {
                                 JODropStatsScreen(onNavigate = {
+                                    navController.navigate(it.route)
+                                })
+                            }
+
+                            composable(
+                                route = Routes.CRIT_COMPARER
+                            ) {
+                                CritComparerScreen(onNavigate = {
                                     navController.navigate(it.route)
                                 })
                             }
