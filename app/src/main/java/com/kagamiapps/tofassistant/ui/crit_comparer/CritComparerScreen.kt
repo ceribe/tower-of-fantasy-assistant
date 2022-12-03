@@ -55,10 +55,19 @@ fun CritComparerScreen(
                 )
             }
             TextField(
-                value = level.toString(),
+                value = if (level == 0) "" else level.toString(),
                 label = { Text(text = "Wanderer's Level") },
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = {},
+                onValueChange = {
+                    if (it == "") {
+                        viewModel.onEvent(CritComparerEvent.OnLevelChange(0))
+                        return@TextField
+                    }
+
+                    val number = it.toIntOrNull()
+                    if (number != null)
+                        viewModel.onEvent(CritComparerEvent.OnLevelChange(number))
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Row {
