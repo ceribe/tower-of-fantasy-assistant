@@ -68,28 +68,6 @@ class AddEditJOLootViewModel @Inject constructor(
                     _jo.value = it.jo
                     chestNo = it.chestNo
                 }
-
-                when (lastLoot?.jo?.region ?: Region.Aesperia) {
-                    Region.Aesperia ->
-                        when (LocalDate.now().dayOfWeek) {
-                            DayOfWeek.MONDAY -> _jo.value = JointOperation.QuarantineArea
-                            DayOfWeek.TUESDAY -> _jo.value = JointOperation.DeepseaStronghold
-                            DayOfWeek.WEDNESDAY -> _jo.value = JointOperation.HyenasArena
-                            DayOfWeek.THURSDAY -> _jo.value = JointOperation.DeepseaProvingGround
-                            DayOfWeek.FRIDAY -> _jo.value = JointOperation.SpacetimeTrainingGround
-                            else -> {} // On weekend there is too many JOs to auto select
-                        }
-                    Region.Vera ->
-                        when (LocalDate.now().dayOfWeek) {
-                            DayOfWeek.MONDAY -> _jo.value = JointOperation.TheEndGame
-                            DayOfWeek.TUESDAY -> _jo.value = JointOperation.SadnessValley
-                            DayOfWeek.WEDNESDAY -> _jo.value = JointOperation.TheEndGame
-                            DayOfWeek.THURSDAY -> _jo.value = JointOperation.SadnessValley
-                            DayOfWeek.FRIDAY -> _jo.value = JointOperation.TheEndGame
-                            DayOfWeek.SATURDAY -> _jo.value = JointOperation.SadnessValley
-                            else -> {} // On sunday there is too many JOs to auto select
-                        }
-                }
             }
             else {
                 repository.getLootById(id)?.let { loot ->

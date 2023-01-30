@@ -71,6 +71,24 @@ enum class JointOperation(
         Drop.values().filter { it.type == DropType.SSREquipment },
         Drop.values().filter { it.type == DropType.SRMatrix },
         Drop.values().filter { it.type == DropType.SSRMatrix }
+    ),
+    PursuitOfFate(
+        8,
+        "Pursuit Of Fate",
+        Region.Vera,
+        Drop.values().filter { it.type == DropType.SREquipment },
+        Drop.values().filter { it.type == DropType.SSREquipment },
+        Drop.values().filter { it.type == DropType.SRMatrix },
+        Drop.values().filter { it.type == DropType.SSRMatrix }
+    ),
+    CarnivalParty(
+        9,
+        "Carnival Party",
+        Region.Vera,
+        Drop.values().filter { it.type == DropType.SREquipment },
+        Drop.values().filter { it.type == DropType.SSREquipment },
+        Drop.values().filter { it.type == DropType.SRMatrix },
+        Drop.values().filter { it.type == DropType.SSRMatrix }
     );
 
     companion object {
@@ -91,7 +109,9 @@ enum class JODifficulty(val level: Int, private val text: String) {
     L60(60, "60"),
     L70(70, "70"),
     L75(75, "75"),
-    L80(80, "80");
+    L80(80, "80"),
+    L85(85, "85"),
+    L90(90, "90");
 
     companion object {
         fun getByLevel(level: Int) = values().first { it.level == level }
@@ -100,7 +120,7 @@ enum class JODifficulty(val level: Int, private val text: String) {
             get() = listOf(L20, L25, L31, L37, L43, L50, L60, L70)
 
         val veraDifficulties
-            get() = listOf(L75, L80)
+            get() = listOf(L75, L80, L85, L90)
     }
 
     override fun toString(): String {
